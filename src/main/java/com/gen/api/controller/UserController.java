@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gen.api.exception.ServiceExc;
+import com.gen.api.model.Student;
 import com.gen.api.model.User;
 import com.gen.api.model.entity.UserEntity;
 import com.gen.api.model.mapper.UserMapper;
@@ -40,7 +41,7 @@ public class UserController {
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home/index");
-        modelAndView.addObject("aluno", new User());
+        modelAndView.addObject("aluno", new Student());
         return modelAndView;
     }
 

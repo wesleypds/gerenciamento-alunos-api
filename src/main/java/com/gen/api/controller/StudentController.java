@@ -105,16 +105,16 @@ public class StudentController {
     }
 
     @PostMapping("/pesquisar-aluno")
-    public ModelAndView pesquisarAluno(@RequestParam(required = false) String nome) {
+    public ModelAndView pesquisarAluno(@RequestParam(required = false) String name) {
         ModelAndView modelAndView = new ModelAndView();
         List<Student> listaAlunos;
-        if(nome == null || nome.trim().isEmpty()) {
+        if(name == null || name.trim().isEmpty()) {
             listaAlunos = repository.findAll()
                                     .stream()
                                     .map(aluno -> mapper.toModel(aluno))
                                     .toList();
         } else {
-            listaAlunos = repository.findByNameContainingIgnoreCase(nome)
+            listaAlunos = repository.findByNameContainingIgnoreCase(name)
                                     .stream()
                                     .map(aluno -> mapper.toModel(aluno))
                                     .toList();;
