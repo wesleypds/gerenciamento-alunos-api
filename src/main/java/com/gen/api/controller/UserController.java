@@ -25,6 +25,9 @@ public class UserController {
     @Autowired
     private UserService service;
 
+    @Autowired
+    private UserMapper mapper;
+
     @GetMapping("/")
     public ModelAndView login() {
         ModelAndView modelAndView = new ModelAndView();
@@ -52,7 +55,7 @@ public class UserController {
     @PostMapping("/salvarUsuario")
     public ModelAndView cadastrar(@Valid User usuario) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
-        service.userSave(UserMapper.INSTANCE.toEntity(usuario));
+        service.userSave(mapper.toEntity(usuario));
         modelAndView.setViewName("redirect:/");
         return modelAndView;
     }
@@ -67,7 +70,7 @@ public class UserController {
         }
         
         UserEntity entity =  service.loginUser(usuario.getUser(), Util.md5(usuario.getPassword()));
-        User userLogin = entity != null ? UserMapper.INSTANCE.toModel(entity) : null;
+        User userLogin = entity != null ? mapper.toModel(entity) : null;
         if(userLogin == null) {
             modelAndView.addObject("msg","Usuario não encontrado. Tente novamente");
         } else {

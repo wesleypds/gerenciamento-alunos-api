@@ -23,6 +23,9 @@ public class StudentController {
     @Autowired
     private StudentRepository repository;
 
+    @Autowired
+    private StudentMapper mapper;
+
     @GetMapping("/inserirAlunos")
     public ModelAndView insertAlunos(Student aluno) {
         ModelAndView modelAndView = new ModelAndView();
@@ -39,7 +42,7 @@ public class StudentController {
             modelAndView.addObject("aluno");
         } else {
             modelAndView.setViewName("redirect:/alunos-adicionados");
-            repository.save(StudentMapper.INSTANCE.toEntity(aluno));
+            repository.save(mapper.toEntity(aluno));
         }
         return modelAndView;
     }
@@ -50,7 +53,7 @@ public class StudentController {
         modelAndView.setViewName("Aluno/listAlunos");
         modelAndView.addObject("alunosList", repository.findAll()
                                                                         .stream()
-                                                                        .map(aluno -> StudentMapper.INSTANCE.toModel(aluno))
+                                                                        .map(aluno -> mapper.toModel(aluno))
                                                                         .toList());
         return modelAndView;
     }
@@ -59,7 +62,7 @@ public class StudentController {
     public ModelAndView editar(@PathVariable("id")Long id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("Aluno/editar");
-        Student aluno = StudentMapper.INSTANCE.toModel(repository.findById(id).get());
+        Student aluno = mapper.toModel(repository.findById(id).get());
         modelAndView.addObject("aluno", aluno);
         return modelAndView;
     }
@@ -67,7 +70,7 @@ public class StudentController {
     @PostMapping("/editar")
     public ModelAndView editar(Student aluno) {
         ModelAndView modelAndView = new ModelAndView();
-        repository.save(StudentMapper.INSTANCE.toEntity(aluno));
+        repository.save(mapper.toEntity(aluno));
         modelAndView.setViewName("redirect:/alunos-adicionados");
         return modelAndView;
     }
@@ -108,12 +111,12 @@ public class StudentController {
         if(nome == null || nome.trim().isEmpty()) {
             listaAlunos = repository.findAll()
                                     .stream()
-                                    .map(aluno -> StudentMapper.INSTANCE.toModel(aluno))
+                                    .map(aluno -> mapper.toModel(aluno))
                                     .toList();
         } else {
             listaAlunos = repository.findByNameContainingIgnoreCase(nome)
                                     .stream()
-                                    .map(aluno -> StudentMapper.INSTANCE.toModel(aluno))
+                                    .map(aluno -> mapper.toModel(aluno))
                                     .toList();;
         }
         modelAndView.addObject("ListaDeAlunos", listaAlunos);

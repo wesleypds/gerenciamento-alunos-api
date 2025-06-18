@@ -1,15 +1,13 @@
 package com.gen.api.model.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.MappingConstants;
 
 import com.gen.api.model.Student;
 import com.gen.api.model.entity.StudentEntity;
 
-@Mapper
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface StudentMapper {
-
-    StudentMapper INSTANCE = Mappers.getMapper(StudentMapper.class);
 
     Student toModel(StudentEntity entity);
 
